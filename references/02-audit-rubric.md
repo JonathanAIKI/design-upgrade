@@ -167,6 +167,22 @@ tom tilstand, lastetilstand, feiltilstand, første gang-tilstand, for-mye-data-t
 - Navigasjon som viser alt på ett nivå i stedet for å gruppere.
 - Overskrifter som beskriver systemet («Datavisning») i stedet for brukerens jobb.
 
+**Er flaten et AI-produkt** — chat, agent, assistent, kopilot — gjelder et eget sett tilstander
+som ikke finnes i tradisjonell UI. Mangler noen av disse, er det et funn:
+
+- **Venting med ukjent varighet.** En vanlig spinner lyver når svaret tar 40 sekunder.
+  Vis framdrift eller medgått tid.
+- **Resonnement.** Er stegene skjult, alltid synlige, eller sammenleggbare? Sammenleggbart er
+  nesten alltid riktig — synlig nok til å gi tillit, lukket nok til ikke å drukne svaret.
+- **Strømmende svar.** Hva skjer med layouten mens teksten vokser? Hopper siden?
+- **Handling som krever godkjenning.** Gjør agenten noe irreversibelt uten å spørre?
+- **Konfidens.** Presenteres et usikkert forslag likt et sikkert? Grad slår binært.
+- **Kilder.** Kan brukeren se hva svaret bygger på?
+- **Feil midt i en oppgave.** Hva skjer når steg 3 av 5 feiler — mister brukeren alt?
+
+**Ved funn:** Beautiful UI (`beautiful-ui-five.vercel.app`) — eneste kilde i registeret som
+dekker disse mønstrene. 19 primitiver med ankerlenke per komponent.
+
 ---
 
 ## 7. Motion og mikrointeraksjon
