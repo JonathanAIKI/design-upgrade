@@ -35,6 +35,7 @@ Den eneste lovlige grunnen til å åpne en ekstern kilde. Ett funn, én kilde. M
 | Vet ikke hvilken stilretning | Refero `/design-styles/<stil>` | 10 navngitte stilretninger |
 | Layout/mønster mangler forbilde | Mobbin MCP | Ekte produkt-skjermbilder |
 | Skjerm mangler tilstander (tom, feil, laster) | Checklist Design | Sjekkliste for den skjermtypen |
+| AI-produkt mangler mønstre for agent-tilstander | Beautiful UI | 19 AI-native primitiver |
 | Trenger en komponent | shadcn MCP | shadcn, React Bits eller Watermelon |
 | Semantiske temafarger ønskes | daisyUI docs | Token-navngivning og tema-struktur |
 | Animasjon mangler eller er feil | motion.dev docs | Easing, spring, layout, exit |
@@ -121,6 +122,39 @@ Krever Tailwind v4 og shadcn initialisert i prosjektet.
   Kategorier: accordian, action, buttons, cards, carousel, choice-chips, dialog, disclosure,
   dropdown, filters, inputs, interaction, lists, map, marketing, media, micro-interaction,
   navigation, pagination, popover, scheduler, sliders, tabs, toggle, tooltip, widgets.
+
+### Beautiful UI — `beautiful-ui-five.vercel.app`
+**Status: verifisert via crawl4ai.** Av designstudioet Turbo. Kopier-lim-klare primitiver.
+
+Den eneste kilden i registeret som dekker **AI-native grensesnitt**. Bruk den når flaten er et
+AI-produkt — chat, agent, assistent, kopilot — og mangler mønstre for tilstander som ikke
+finnes i tradisjonell UI. Alle 19 har egen ankerlenke (`/#<slug>`):
+
+- **Agent-tilstander**: `loading-state` (pixel-grid-loader med medgått tid), `thinking-state`
+  (utvidbare traces: steps, reasoning, search, coding), `streaming-text` (strømmet svar med
+  inline kilder, handlinger og oppfølgingsspørsmål), `task-rows` (live status —
+  kjører, feilet, fullført, med understeg).
+- **Menneske-i-loopen**: `approval-card` (spørsmål agenten stiller før den handler),
+  `recommendation-card` (forslag med konfidensmåler, alternativer og «Needs review»/«No signal»
+  på de svake), `selection-actions` (marker tekst og send den til agenten).
+- **Verktøy og kontekst**: `tool-chips` (kodeendringer og tool-calls som kompakte chips),
+  `context-cards` (hentede kunnskapsbiter med kilde, filtype og tegntelling),
+  `code-block` (agent-skrevet kode som strømmer inn linje for linje).
+- **Data**: `diff-table` (AI-foreslåtte endringer i tabelldata), `records-table`
+  (CRM-grid med tags, sortering, relasjonsstyrke), `filter-table` (status-chips som
+  omorganiserer live data), `insight-cards` (sidevis innsikt med scrub-bare grafer).
+- **Skall og inndata**: `chat-composer`, `prompt-bar` (@ kilder, / kommandoer, modellvelger,
+  diktering), `sidebar-nav`, `search` (kommandosøk med live filtrering og tom tilstand),
+  `fine-tune-card` (inspektør der agenten justerer designegenskaper).
+
+Merk hvordan komponentene er navngitt: **Recommendation Card**, ikke «AI-anbefaling».
+Funksjon, ikke teknologi — samme regel som `04-anti-slop.md` punkt 3.
+
+To ting å hente her utover komponentene: **konfidens vises som grad**, ikke som binært
+ja/nei (`recommendation-card` merker svake alternativer «Needs review» og «No signal»), og
+**agentens resonnement er sammenleggbart** framfor skjult eller alltid synlig.
+
+Ingen registry eller npm-pakke — mønstrene leses og bygges i prosjektets egen stack.
 
 ### Checklist Design — `checklist.design`
 **Status: verifisert.** 112 sjekklister i fem kategorier:
