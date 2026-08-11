@@ -7,7 +7,13 @@ description: Systematisk forbedring av visuelt design på en eksisterende nettsi
 
 Du er dirigent, ikke solist. Denne skillen eier tre ting som ingen annen skill her gjør:
 **systematisk audit av eksisterende UI**, **avklaring av formål og stilretning**, og
-**kuratert inspirasjonshenting**. Selve byggingen delegeres videre.
+**kuratert inspirasjonshenting**. Selve håndverket delegeres til `impeccable` og
+`frontend-orchestrator` — men resultatet er ditt ansvar, ikke deres.
+
+**Forventet utgangspunkt:** en flate som allerede fungerer. Grunnmuren står — ruter, data,
+komponenter er på plass — og oppgaven er å heve den fra «fungerer» til «ser profesjonell og
+gjennomtenkt ut». Det er ikke en bug-jakt. Auditen i fase 3 finnes for å gjøre løftet
+konkret og målbart, ikke for å levere en feilliste.
 
 ## Hardt krav: aldri gjett på design
 
@@ -120,20 +126,44 @@ regel der, fiks den nå.
 
 ---
 
-## Fase 6 — Tre varianter
+## Fase 6 — Tre varianter, bygget med håndverk
 
-Kall `Skill(prototype)` og følg dens UI-gren. Krav som gjelder her:
+Dette er fasen brukeren er ute etter. Grunnmuren fungerer allerede — jobben her er å heve
+den fra «fungerer» til «ser profesjonell og gjennomtenkt ut». Ikke lever skisser.
+
+**Håndverksskillene er obligatoriske her, ikke en nødutgang.** Rekkefølgen er:
+
+1. **`Skill(frontend-orchestrator)` med modus fra profilen** — se mappingen i
+   `references/05-handoff.md`. Gi den svarene fra fase 2 med én gang, slik at den
+   **ikke spør om modus på nytt**.
+2. **`Skill(impeccable)`** er standardmotoren for selve designhåndverket — typografi,
+   farge, layout, detaljering. Den har 58-regels slop-detektor og leser `DESIGN.md`,
+   som du allerede skrev i fase 5. Bruk den på **alle tre** variantene, ikke bare når
+   noe ser galt ut.
+3. **`Skill(prototype)`**, UI-grenen, holder variant-mekanikken: samme rute,
+   `?variant=`, flytende velger.
+
+Hopper du over steg 1 og 2 får du tre middelmådige varianter. Det er den vanligste
+måten denne skillen kan mislykkes på.
+
+Krav til selve variantene:
 
 - **3 varianter**, strukturelt forskjellige — ikke tre fargevarianter av samme layout.
-  Én skal ligge nær briefens midtpunkt, én strammere, én mer uttrykksfull.
+  Én nær briefens midtpunkt, én strammere, én mer uttrykksfull.
 - Hver variant får **navn og én setning** om hva den satser på, i variant-velgeren.
-- Bygg i prosjektets faktiske stack når det finnes en app. Uten app: tre frittstående
-  HTML-filer med inline CSS, åpnet i browseren.
-- Trenger variantene tyngre design- eller motion-håndverk, kall `Skill(frontend-orchestrator)`
-  og gi den svarene fra fase 2 slik at den **ikke spør om modus på nytt**.
+- Bygg i prosjektets faktiske stack. Uten app: tre frittstående HTML-filer med inline CSS.
+- Ekte innhold, ikke placeholder. Design vurdert på «Lorem ipsum» er ikke vurdert.
 
-Kjør `scripts/contrast.mjs` på hver variants tekst/bakgrunn-par før du leverer. En variant som
-feiler AA på brødtekst er ikke ferdig.
+**To porter før levering — begge må passere:**
+
+```bash
+node scripts/contrast.mjs <hvert tekst/bakgrunn-par per variant>
+```
+En variant som feiler AA på brødtekst er ikke ferdig.
+
+Kjør deretter `references/04-anti-slop.md` som sjekkliste på hver variant. Klarer du ikke
+å svare i én setning på hva som gjør varianten gjenkjennelig, er den ikke ferdig — da er
+den en templated side med nye farger.
 
 ---
 

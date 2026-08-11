@@ -51,9 +51,16 @@ git clone git@github.com:JonathanAIKI/design-upgrade.git ~/.claude/skills/design
 
 Kjør deretter `/design-upgrade` i Claude Code.
 
+## Forventet utgangspunkt
+
+En flate som **allerede fungerer**. Grunnmuren står — ruter, data og komponenter er på
+plass — og oppgaven er å heve den fra «fungerer» til «ser profesjonell og gjennomtenkt ut».
+Dette er ikke en bug-jakt; auditen finnes for å gjøre løftet konkret og målbart.
+
 ## Avhengigheter
 
-Ingen er påkrevd — skillen degraderer pent. Men den blir bedre med:
+`Skill(impeccable)` er standardmotoren for designhåndverket i fase 6 og bør være
+installert. Resten er valgfritt — skillen degraderer pent:
 
 | Verktøy | Gir | Installasjon |
 |---|---|---|
