@@ -90,7 +90,7 @@ Ikke tre fargevarianter av samme layout. Strukturelt forskjellige, plassert rund
 Hver variant får navn og én setning i variant-velgeren, f.eks.
 `B — Strammere: samme innhold, halv høyde`.
 
-Det nyttige svaret fra Jonathan er ofte «header fra B med innholdsområdet fra C». Legg til
+Det nyttige svaret fra brukeren er ofte «header fra B med innholdsområdet fra C». Legg til
 rette for det ved å holde variantene lesbare hver for seg.
 
 ---
@@ -123,7 +123,7 @@ Kall den når variantene krever motion-håndverk, eller når du vil ha modus-rut
 
 Den skillen har en egen STOPP-og-vent-gate der den spør om modus (impeccable / taste /
 pro-max / motion). **Du har allerede stilt de spørsmålene i fase 2.** Gi den svarene med én
-gang, slik at den ikke spør Jonathan på nytt:
+gang, slik at den ikke spør brukeren på nytt:
 
 ```
 Kontekstanalyse er allerede gjort av design-upgrade.
