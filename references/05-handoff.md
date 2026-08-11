@@ -95,9 +95,31 @@ rette for det ved å holde variantene lesbare hver for seg.
 
 ---
 
+## Overlevering til `Skill(impeccable)` — standardmotoren
+
+Kall den på **hver** variant, ikke bare når noe ser galt ut. Den er grunnen til at output
+fra denne skillen skal se ut som håndverk og ikke som en generert side.
+
+Den leser `DESIGN.md`, som du allerede skrev i fase 5 — så den arbeider innenfor de samme
+tokenene i stedet for å finne på nye. Gi den i tillegg:
+
+```
+Flate: <hvilken side/komponent>
+Flate-modus: <persuade|operate|read>     ← samme skille impeccable selv bruker
+Profil: <P1–P5>
+Brief: <sti til DESIGN.md>
+Variant: <A midtpunkt | B strammere | C mer uttrykksfull>
+Signaturmoment som skal gjentas: <fra briefen>
+Ikke rør: <det som er bevisst uendret>
+```
+
+Bruk dens slop-detektor på resultatet. Den fanger mønstre `04-anti-slop.md` beskriver, men
+mekanisk — 58 regler mot din egen lesing.
+
 ## Overlevering til `Skill(frontend-orchestrator)`
 
-Kall den kun når variantene krever tyngre design- eller motion-håndverk enn du bygger direkte.
+Kall den når variantene krever motion-håndverk, eller når du vil ha modus-ruting
+(taste / pro-max) i stedet for impeccable alene.
 
 Den skillen har en egen STOPP-og-vent-gate der den spør om modus (impeccable / taste /
 pro-max / motion). **Du har allerede stilt de spørsmålene i fase 2.** Gi den svarene med én
@@ -126,6 +148,7 @@ Modus-mapping fra profil:
 - [ ] Hvert funn har målt bevis og fil:linje
 - [ ] Maks 4 eksterne oppslag, hvert knyttet til et konkret funn
 - [ ] Briefen har eksakte tokens, ikke adjektiver
+- [ ] `Skill(impeccable)` kjørt på **alle tre** variantene, ikke bare den du liker best
 - [ ] `contrast.mjs` kjørt på hver variants tekst/bakgrunn-par, tallene i rapporten
 - [ ] Hver variant sett i browser, i både desktop- og mobilbredde
 - [ ] Anti-slop-kontrakten holder i alle tre variantene
