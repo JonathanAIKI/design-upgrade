@@ -23,7 +23,9 @@ const THRESHOLDS = {
 const HEX = /#[0-9a-fA-F]{3,8}\b/g;
 const RGB_FN = /rgba?\(\s*([\d.]+)[\s,]+([\d.]+)[\s,]+([\d.]+)/;
 const HSL_FN = /hsla?\(\s*([\d.]+)(?:deg)?[\s,]+([\d.]+)%[\s,]+([\d.]+)%/;
-// shadcn / Tailwind v4 store bare HSL triplets: `--background: 222.2 47.4% 11.2%`
+// Tailwind v4 defaults to oklch: `oklch(0.723 0.219 149.579)`
+const OKLCH_FN = /oklch\(\s*([\d.]+%?)[\s,]+([\d.]+%?)[\s,]+([\d.]+)/;
+// shadcn stores bare HSL triplets: `--background: 222.2 47.4% 11.2%`
 const HSL_BARE = /^\s*([\d.]+)\s+([\d.]+)%\s+([\d.]+)%\s*$/;
 
 function parseColor(input) {
@@ -31,6 +33,16 @@ function parseColor(input) {
 
   const bare = raw.match(HSL_BARE);
   if (bare) return hslToRgb(+bare[1], +bare[2], +bare[3]);
+
+  const oklchFn = raw.match(OKLCH_FN);
+  if (oklchFn) {
+    const pct = (v) => (v.endsWith('%') ? parseFloat(v) / 100 : parseFloat(v));
+    // Chroma given as a percentage is relative to 0.4 per the CSS Color 4 spec.
+    const c = oklchFn[2].endsWith('%')
+      ? (parseFloat(oklchFn[2]) / 100) * 0.4
+      : parseFloat(oklchFn[2]);
+    return oklchToRgb(pct(oklchFn[1]), c, +oklchFn[3]);
+  }
 
   const hslFn = raw.match(HSL_FN);
   if (hslFn) return hslToRgb(+hslFn[1], +hslFn[2], +hslFn[3]);
@@ -67,6 +79,32 @@ function hslToRgb(h, s, l) {
     [0, x, c], [x, 0, c], [c, 0, x],
   ][Math.floor(h / 60) % 6];
   return seg.map((v) => clamp255((v + m) * 255));
+}
+
+// OKLCH → sRGB, per CSS Color 4 (OKLab matrices from Björn Ottosson).
+function oklchToRgb(L, C, hDeg) {
+  const h = (hDeg * Math.PI) / 180;
+  const a = C * Math.cos(h);
+  const b = C * Math.sin(h);
+
+  const l_ = L + 0.3963377774 * a + 0.2158037573 * b;
+  const m_ = L - 0.1055613458 * a - 0.0638541728 * b;
+  const s_ = L - 0.0894841775 * a - 1.2914855480 * b;
+
+  const l = l_ ** 3;
+  const m = m_ ** 3;
+  const s = s_ ** 3;
+
+  const lin = [
+    +4.0767416621 * l - 3.3077115913 * m + 0.2309699292 * s,
+    -1.2684380046 * l + 2.6097574011 * m - 0.3413193965 * s,
+    -0.0041960863 * l - 0.7034186147 * m + 1.7076147010 * s,
+  ];
+
+  return lin.map((v) => {
+    const srgb = v <= 0.0031308 ? 12.92 * v : 1.055 * Math.pow(v, 1 / 2.4) - 0.055;
+    return clamp255(srgb * 255);
+  });
 }
 
 // WCAG 2.1 relative luminance (§ definition of relative luminance).
@@ -156,6 +194,28 @@ const mark = (ok) => (ok ? 'pass' : 'FAIL');
 const DEFAULT_EXT = ['css', 'scss', 'sass', 'less', 'ts', 'tsx', 'js', 'jsx', 'vue', 'svelte', 'html', 'json'];
 const SKIP_DIRS = new Set(['node_modules', '.git', 'dist', 'build', '.next', 'out', 'coverage', '.turbo', 'vendor']);
 
+// Colours hide in four notations in a modern codebase. Hex alone misses most of a
+// Tailwind v4 (oklch) or shadcn (bare HSL triplet) theme file entirely.
+const SCAN_PATTERNS = [
+  HEX,
+  /oklch\([^)]+\)/gi,
+  /hsla?\([^)]+\)/gi,
+  /rgba?\([^)]+\)/gi,
+  // `--background: 222.2 47.4% 11.2%` — the shadcn convention, no function wrapper.
+  /--[a-z0-9-]+:\s*([\d.]+\s+[\d.]+%\s+[\d.]+%)/gi,
+];
+
+function extractColors(text) {
+  const found = [];
+  for (const pattern of SCAN_PATTERNS) {
+    for (const m of text.matchAll(pattern)) {
+      // Capture group 1 when present (bare triplets), else the whole match.
+      found.push(m[1] ?? m[0]);
+    }
+  }
+  return found;
+}
+
 function walk(target, exts, acc = []) {
   let st;
   try {
@@ -194,7 +254,7 @@ function scan(target, exts, asJson) {
     } catch {
       continue;
     }
-    for (const match of text.match(HEX) || []) {
+    for (const match of extractColors(text)) {
       const rgb = parseColor(match);
       if (!rgb) continue;
       const key = toHex(rgb);
@@ -226,7 +286,8 @@ function scan(target, exts, asJson) {
   }
 
   console.log(`Scanned ${files.length} file(s) under ${target}\n`);
-  console.log(`Distinct hex colours: ${colors.length}`);
+  // Values are normalised to hex for comparison, but the sources may be oklch/hsl/rgb.
+  console.log(`Distinct colours: ${colors.length}`);
   if (colors.length > 20) {
     console.log('  ^ over 20 distinct colours without named roles is a design-system smell.');
   }
