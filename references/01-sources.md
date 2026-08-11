@@ -217,7 +217,7 @@ Collaborating with AI (videoleksjoner, bl.a. Claude Code), Means & Methods, Inte
 
 Premisset — «most of what gets made will probably be fine, functional but forgettable; this is
 for people who want to make something else» — er samme premiss som akse 8.
-Har Jonathan konto: åpne via claude-in-chrome. Ellers: bruk den ikke, og ikke gjett innholdet.
+Har du konto: åpne via claude-in-chrome. Ellers: bruk den ikke, og ikke gjett innholdet.
 
 ### Design Engineer Tools — `designengineer.tools`
 **Status: verifisert via crawl4ai. Meta-katalog, ikke en designkilde i seg selv.**
@@ -242,6 +242,6 @@ Meld disse når de blokkerer et oppslag — ikke jobb rundt dem i stillhet:
 1. **Firecrawl MCP er tom for kreditt.** Erstattet av crawl4ai via `fetch-source.sh`.
    Fylles den på, er den fortsatt et gyldig alternativ, men den er ikke nødvendig lenger.
 2. **claude-in-chrome mangler site-permission for `interfacecraft.dev`.** Kun nødvendig hvis
-   Jonathan har konto der og vil bruke innholdet.
+   du har konto der og vil bruke innholdet.
 3. **Registries må settes opp per prosjekt** i `components.json` før shadcn MCP kan hente
    React Bits- og Watermelon-komponenter. Snippet står under shadcn MCP over.
