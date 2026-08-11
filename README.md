@@ -75,7 +75,13 @@ node scripts/contrast.mjs --scan src/styles/globals.css
 
 # Hent en designkilde som markdown (crawl4ai, med curl-fallback)
 ./scripts/fetch-source.sh https://www.checklist.design/
+
+# Regresjonstester — kjør etter enhver endring i contrast.mjs
+./scripts/test.sh
 ```
+
+`contrast.mjs` forstår fire notasjoner: hex, `rgb()`, `hsl()`, `oklch()` (Tailwind v4)
+og bare HSL-tripletter (`36 33% 97%`, shadcn-konvensjonen).
 
 ## Struktur
 
@@ -88,4 +94,5 @@ references/04-anti-slop.md        Anti-AI-slop, regler og mønstre
 references/05-handoff.md          Brief-mal + overlevering til prototype
 scripts/contrast.mjs              WCAG 2.1-måling og fargeinventar
 scripts/fetch-source.sh           Kildehenting med fallback
+scripts/test.sh                   Regresjonstester for contrast.mjs
 ```

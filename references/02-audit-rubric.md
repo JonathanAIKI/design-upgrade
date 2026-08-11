@@ -20,10 +20,14 @@ bruk) · **medium** (inkonsistens) · **lav** (finish).
 
 **Mål:**
 ```bash
-rg -o 'font-size:\s*[0-9.]+(px|rem)|text-\[[0-9.]+(px|rem)\]' -r '$0' --no-filename | sort -u
+# Vilkårlige verdier OG standard utility-klasser. Kjører du bare den første,
+# ser du under halvparten i et Tailwind-prosjekt.
+rg -o 'font-size:\s*[0-9.]+(px|rem)|text-\[[0-9.]+(px|rem)\]' --no-filename | sort -u
+rg -o '\btext-(xs|sm|base|lg|xl|[2-9]xl)\b' --no-filename | sort | uniq -c | sort -rn
 rg -o 'font-(bold|semibold|medium|light|black|thin)|font-weight:\s*[0-9]+' --no-filename | sort | uniq -c
 ```
-Tell distinkte størrelser og vekter.
+Summen av de to første linjene er antall distinkte størrelser. Tell dem sammen —
+ikke rapporter bare den ene.
 
 **Rødt flagg:**
 - Mer enn 7 distinkte fontstørrelser på én flate — det er ingen skala, det er tilfeldigheter.
@@ -129,8 +133,13 @@ har konsekvens.
 
 **Mål:**
 ```bash
+# Vilkårlige verdier — hvert treff er et brudd på skalaen
 rg -o '(padding|margin|gap)(-[a-z]+)?:\s*[0-9.]+(px|rem)|\b(p|m|gap|space-[xy])-\[[^]]+\]' --no-filename | sort | uniq -c | sort -rn
+# Standard-klassene — viser om det finnes en skala i det hele tatt
+rg -o '\b(p|px|py|pt|pb|pl|pr|m|mx|my|mt|mb|gap|space-[xy])-[0-9]+\b' --no-filename | sort | uniq -c | sort -rn
 ```
+Forholdet mellom de to er tallet som betyr noe: mange vilkårlige verdier mot få
+standard er et system som har falt fra hverandre.
 
 **Rødt flagg:**
 - Vilkårlige verdier (`p-[13px]`, `mt-[27px]`) spredt utover. Én bevisst optisk justering er
@@ -191,9 +200,15 @@ dekker disse mønstrene. 19 primitiver med ankerlenke per komponent.
 
 **Mål:**
 ```bash
-rg -o 'transition[^;]*|animate-[a-z-]+|duration-[0-9]+|ease-[a-z-]+' --no-filename | sort | uniq -c
-rg -c 'prefers-reduced-motion'
+# Begrens til frontend-filtyper. Uten -t matcher 'transition' ogsaa SQL-migrasjoner
+# og logg-strenger, og du faerdes i falske positive.
+rg -o '\btransition-(all|colors|opacity|shadow|transform|none)\b|\btransition\s*:|\banimate-[a-z-]+|\bduration-[0-9]+|\bease-(in-out|in|out|linear)\b' \
+   -t ts -t js -t css -t html -t svelte --no-filename | sort | uniq -c | sort -rn
+
+rg -l 'prefers-reduced-motion' -t ts -t js -t css | wc -l
 ```
+Andre linje er antall filer som håndterer redusert bevegelse. **Er den 0, er det et
+kritisk funn** — uansett hvor lite som animeres ellers.
 
 **Krav:**
 - `prefers-reduced-motion: reduce` **må** være håndtert. Mangler den: kritisk.
