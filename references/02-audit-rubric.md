@@ -145,15 +145,40 @@ standard er et system som har falt fra hverandre.
 - Vilkårlige verdier (`p-[13px]`, `mt-[27px]`) spredt utover. Én bevisst optisk justering er
   greit; tjue er fravær av system.
 - Avstand som ikke skiller: elementer som hører sammen står like langt fra hverandre som
-  elementer som ikke gjør det. Nærhet er den billigste formen for hierarki.
+  elementer som ikke gjør det. Nærhet er den billigste formen for hierarki. Husregel: avstanden
+  mellom grupper er minst dobbelt så stor som avstanden inne i en gruppe (tittel + undertittel
+  er én gruppe, pris + vilkår er en annen).
+- Sentrert tekst i UI-komponenter: kort, lister, tabeller, skjema, dialoger, paneler. Hver
+  sentrerte linje starter på sin egen x-posisjon, så øyet må lete etter starten på hver linje.
+  Venstrejustert tekst gir én kant å følge. Sentrering er greit for én kort linje som står
+  alene (en knappetekst, et tall i en KPI-rute) og for en tom tilstand som er det eneste
+  innholdet i flaten.
 - Lik padding på alle sider i et element der optisk balanse krever ulik (typisk knapper med
   ikon, og tekst over/under store grader).
 - Linjelengde over ~75 tegn på løpende brødtekst.
 - Ingen tydelig grid eller maks-bredde — innhold som flyter helt ut på store skjermer.
 - Ikke sjekket i mobilbredde. Hvis du ikke har sett den, er den ikke auditert.
 
-**Bra ser slik ut:** én skala (4/8-basert er vanlig), gruppering som speiler mening, bevisst
-maks-bredde, og en tetthet som passer formålet — dashboard tåler tett, landingsside gjør ikke.
+**Mål justering og nærhet i nettleseren** (lim inn i konsollen med komponenten som `el`):
+```js
+// Justeringsankre: antall ulike venstrekanter for tekstlinjer. Venstrejustert kort gir 1–2.
+const xs = new Set(), w = document.createTreeWalker(el, NodeFilter.SHOW_TEXT);
+for (let n; (n = w.nextNode());) {
+  if (!n.textContent.trim()) continue;
+  const r = document.createRange(); r.selectNodeContents(n);
+  for (const b of r.getClientRects()) xs.add(Math.round(b.left));
+}
+// Nærhet: loddrett avstand mellom barna. Like tall på rad = ingen gruppering.
+const k = [...el.children].map((c) => c.getBoundingClientRect()).filter((r) => r.height);
+console.log('ankre', xs.size, 'avstander', k.slice(1).map((r, i) => Math.round(r.top - k[i].bottom)));
+```
+Flere enn 3 ankre i én komponent er et funn. Tre eller flere like avstander mellom blokker med
+ulik rolle er et funn. Uten nettleser: `rg -n 'text-align:\s*center|\btext-center\b'` og vurder
+hvert treff som står på mer enn én linje.
+
+**Bra ser slik ut:** én skala (4/8-basert er vanlig), gruppering som speiler mening, én
+venstrekant per komponent, bevisst maks-bredde, og en tetthet som passer formålet — dashboard
+tåler tett, landingsside gjør ikke.
 
 ---
 
@@ -175,6 +200,12 @@ tom tilstand, lastetilstand, feiltilstand, første gang-tilstand, for-mye-data-t
 - Ingen feil- eller lastetilstand.
 - Navigasjon som viser alt på ett nivå i stedet for å gruppere.
 - Overskrifter som beskriver systemet («Datavisning») i stedet for brukerens jobb.
+- Handlingen står langt fra det den gjelder. «Kjøp» hører hjemme på samme linje som prisen,
+  «Slett» ved raden den sletter, ikke nederst i en egen knapperad.
+- Tekst som ikke hjelper beslutningen på denne flaten (juridiske vilkår, gjentatt produktnavn,
+  «Les mer om …») står i komponenten. Flytt den dit beslutningen tas, eller fjern den.
+- Sekundærtekst skilles bare med mindre størrelse. Dempet farge gir tydeligere hierarki og
+  bedre lesbarhet enn å krympe teksten til 11px, så lenge kontrasten holder AA.
 
 **Er flaten et AI-produkt** — chat, agent, assistent, kopilot — gjelder et eget sett tilstander
 som ikke finnes i tradisjonell UI. Mangler noen av disse, er det et funn:
