@@ -202,8 +202,13 @@ tom tilstand, lastetilstand, feiltilstand, første gang-tilstand, for-mye-data-t
 - Overskrifter som beskriver systemet («Datavisning») i stedet for brukerens jobb.
 - Handlingen står langt fra det den gjelder. «Kjøp» hører hjemme på samme linje som prisen,
   «Slett» ved raden den sletter, ikke nederst i en egen knapperad.
-- Tekst som ikke hjelper beslutningen på denne flaten (juridiske vilkår, gjentatt produktnavn,
-  «Les mer om …») står i komponenten. Flytt den dit beslutningen tas, eller fjern den.
+- Overflødig tekst i komponenten: gjentatt produktnavn, «Les mer om …», en forklaring som står
+  rett ved siden av igjen. Fjern den, eller flytt den dit den hjelper.
+- **Unntak som aldri forenkles bort:** totalpris, påkrevde tilleggskostnader (abonnement,
+  medlemskap, frakt), bindingstid, angrerett og andre avtalevilkår brukeren må kjenne før
+  handlingen. De skal stå ved handlingen og være lesbare. Å flytte eller korte dem krever
+  et verifisert krav (juridisk vurdering eller kundens egne vilkår), ikke et designvalg. Et
+  kort der knappen er pen fordi vilkårene er borte, er et funn, ikke en forbedring.
 - Sekundærtekst skilles bare med mindre størrelse. Dempet farge gir tydeligere hierarki og
   bedre lesbarhet enn å krympe teksten til 11px, så lenge kontrasten holder AA.
 

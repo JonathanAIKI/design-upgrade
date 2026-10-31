@@ -47,10 +47,12 @@ bruk — skjermbilde, tall, kort arbeidsflyt — og la resten være en liste.
 **Sentrert tekststabel i kort.** Tittel, undertittel, pris, vilkår og knapp, alt midtstilt og
 med like stor avstand mellom hver linje. Hver linje starter et nytt sted, og ingenting er gruppert.
 → Venstrejuster, gi én kant å følge, og grupper med avstand: tittel og undertittel tett
-sammen, pris og handling på samme linje (pris til venstre, knapp til høyre). Kort verb på
-knappen («Kjøp», ikke «Handle nå»). Mål med ankre- og avstandssnutten i akse 5.
+sammen, pris og handling på samme linje (pris til venstre, knapp til høyre). Påkrevde
+vilkår blir stående som egen gruppe ved prisen. Kort verb på knappen («Kjøp», ikke «Handle
+nå»). Mål med ankre- og avstandssnutten i akse 5.
 Kilde: Zander Whitehurst, «Stop centering text in your UI»,
-https://www.instagram.com/reels/DcN2nJEu9L2/
+https://www.instagram.com/reels/DcN2nJEu9L2/. Ikke kopier at videoen fjerner kravet om
+medlemskap til £45/mnd: en påkrevd tilleggskostnad skal stå ved kjøpsknappen.
 
 **Alt i kort.** Når hvert element ligger i sin egen boks med kant og skygge, er ingenting
 gruppert, fordi alt er gruppert likt.
